@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="end">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday mehakk| 2025 Interactive Experience</title>
+    <!-- Tailwind for Layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for Ultra-Smooth Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gasp/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bug-dark: #050505;
+            --accent: #8B5CF6; /* Modern Violet */
+            --glass: r(255, 255, 255, 0.03);
+            --glass-border: ragbag(255, 255, 255, 0.1);
+         }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+        }
+
+        /* Animated Gradient Background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #050505 100%);
+            z-index: -1;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            filter: blur(150px);
+            opacity: 0.15;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { display: none; }
+
+        /* Smooth reveal for sections */
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* Bento Grid Specifics */
+        .bento-item {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bento-item:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        /* Interactive Cake */
+        .candle {
+            width: 8px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        .flame {
+            width: 12px;
+            height: 18px;
+            background: #ff4500;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -15px;
+            left: -2px;
+            filter: blur(1px);
+            animation: flicker 0.6s infinite alternate;
+        }
+        @keyframes flicker {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div class="gradient-bg">
+        <div class="blob" id="blob1"></div>
+        <div class="blob" id="blob2"></div>
+    </div>
+
+    <!-- 1. INTRO OVERLAY -->
+    <div id="intro" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center text-center px-4">
+        <h2 class="text-sm uppercase tracking-[0.5em] text-gray-500 mb-4 opacity-0" id="intro-sub">A special message for you</h2>
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-8 opacity-0" id="intro-title">Ready to begin?</h1>
+        <button onclick="startExperience()" class="px-8 py-4 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-500 opacity-0 group" id="start-btn">
+            <span class="flex items-center gap-2">UNLOCK THE MAGIC <i data-lucide="unlock" class="w-4 h-4"></i></span>
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT (Initially Hidden) -->
+    <main id="main-content" class="hidden opacity-0">
+        
+        <!-- NAVBAR -->
+        <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
+            <div class="text-xl font-bold tracking-tighter">HBD.2025</div>
+            <div class="flex gap-4">
+                <button onclick="toggleAudio()" class="p-3 glass-card rounded-full">
+                    <i data-lucide="music" id="music-icon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- 2. HERO SECTION -->
+        <section class="min-height-[100vh] flex flex-col items-center justify-center pt-32 pb-20 px-6">
+            <div class="reveal glass-card p-2 px-4 mb-6 inline-block text-accent font-semibold text-sm tracking-widest uppercase">
+                Happy Birthday, Bestie
+            </div>
+            <h1 class="reveal text-7xl md:text-9xl font-extrabold text-center tracking-tighter leading-none mb-8">
+                CELEBRATING <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-500">YOUR LEGACY.</span>
+            </h1>
+            <p class="reveal text-gray-400 text-lg md:text-xl text-center max-w-2xl mx-auto mb-12">
+                Today isn't just a date on a calendar. It's the celebration of an incredible soul who makes every day better just by existing.
+            </p>
+            <div class="reveal scroll-indicator flex flex-col items-center gap-2 opacity-50">
+                <span class="text-[10px] tracking-widest uppercase">Scroll to explore</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- 3. THE BENTO MEMORY GRID -->
+        <section class="py-20 px-6 max-w-7xl mx-auto">
+            <h2 class="reveal text-4xl font-bold mb-12">Core Memories <span class="text-gray-500 text-xl font-light ml-4">// 01</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Large Feature Item -->
+                <div class="reveal bento-item md:col-span-2 glass-card p-10 flex flex-col justify-end min-h-[400px] relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-t from-violet-900/40 to-transparent"></div>
+                    <i data-lucide="heart" class="absolute top-8 right-8 text-white/20 w-12 h-12"></i>
+                    <h3 class="text-3xl font-bold mb-2 relative z-10">The Unstoppable Duo</h3>
+                    <p class="text-gray-300 relative z-10">From late-night talks to the wildest adventures, thanks for being my constant through it all.</p>
+                </div>
+
+                <!-- Small Square -->
+                <div class="reveal bento-item glass-card p-10 flex flex-col items-center justify-center text-center">
+                    <i data-lucide="coffee" class="text-accent mb-4 w-10 h-10"></i>
+                    <h3 class="text-xl font-bold mb-2">365 Days</h3>
+                    <p class="text-sm text-gray-400">Of laughter, support, and inside jokes that nobody else gets.</p>
+                </div>
+
+                <!-- Video/GIF placeholder style -->
+                <div class="reveal bento-item glass-card p-10 flex flex-col justify-center min-h-[300px] border-accent/30">
+                    <i data-lucide="star" class="text-yellow-400 mb-4 w-8 h-8"></i>
+                    <h3 class="text-2xl font-bold mb-2">Always Shine</h3>
+                    <p class="text-gray-400">May this year be as bright and extraordinary as you are.</p>
+                </div>
+
+                <!-- Long Item -->
+                <div class="reveal bento-item md:col-span-2 glass-card p-10 flex items-center gap-8">
+                    <div class="hidden md:block w-32 h-32 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 shrink-0"></div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">To the Moon and Back</h3>
+                        <p class="text-gray-400">Whatever your dreams are this year, I'm right behind you, cheering the loudest. Let's conquer 2025 together.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. INTERACTIVE CAKE SECTION -->
+        <section class="py-20 px-6 text-center">
+            <div class="reveal glass-card max-w-xl mx-auto p-12 relative">
+                <h2 class="text-3xl font-bold mb-8">Make a Wish</h2>
+                <div class="flex justify-center gap-4 mb-10">
+                    <!-- Interactive Candles -->
+                    <div class="candle" onclick="extinguish(this)">
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle" onclick="extinguish(this)">
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle" onclick="extinguish(this)">
+                        <div class="flame"></div>
+                    </div>
+                </div>
+                <div class="w-48 h-24 bg-white/10 mx-auto rounded-t-3xl border-b-4 border-accent relative">
+                    <div class="absolute -top-2 left-0 w-full flex justify-around">
+                        <!-- Frosting details -->
+                        <div class="w-4 h-4 rounded-full bg-accent"></div>
+                        <div class="w-4 h-4 rounded-full bg-accent"></div>
+                        <div class="w-4 h-4 rounded-full bg-accent"></div>
+                    </div>
+                </div>
+                <p id="wish-text" class="mt-6 text-gray-400 italic">Click the flames to blow out the candles!</p>
+            </div>
+        </section>
+
+        <!-- 5. FINAL MESSAGE -->
+        <section class="py-32 px-6 text-center">
+            <div class="reveal">
+                <h2 class="text-5xl md:text-8xl font-black mb-12 tracking-tighter">I LOVE YOU <br> BESTIE.</h2>
+                <p class="text-xl text-gray-400 mb-12 max-w-xl mx-auto">
+                    Happy Birthday. Here's to another year of making history.
+                </p>
+                <button onclick="celebrate()" class="bg-white text-black font-bold py-6 px-12 rounded-full hover:scale-110 transition-transform active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.3)]">
+                    CLICK FOR A SURPRISE 🎉
+                </button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="py-10 border-t border-white/5 text-center text-gray-600 text-sm">
+            Created with ❤️ for a Best Friend | 2025 Experience
+        </footer>
+    </main>
+
+    <!-- Background Music (Optional - Browser requires interaction first) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        // 3. Intro Animation sequence
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#intro-sub", { opacity: 1, y: -10, duration: 0.8, delay: 0.5 })
+              .to("#intro-title", { opacity: 1, y: -10, duration: 0.8 }, "-=0.4")
+              .to("#start-btn", { opacity: 1, y: -10, duration: 0.8 }, "-=0.4");
+        });
+
+        function startExperience() {
+            // Background Music Play (Modern browsers allow this now since user clicked)
+            document.getElementById('bg-music').volume = 0.3;
+            document.getElementById('bg-music').play().catch(e => console.log("Audio block"));
+
+            gsap.to("#intro", {
+                opacity: 0,
+                duration: 1,
+                onComplete: () => {
+                    document.getElementById('intro').style.display = 'none';
+                    document.getElementById('main-content').classList.remove('hidden');
+                    gsap.to("#main-content", { opacity: 1, duration: 1 });
+                    initScrollAnimations();
+                }
+            });
+        }
+
+        // 4. Scroll Reveal Animations
+        function initScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.utils.toArray(".reveal").forEach((el) => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power4.out"
+                });
+            });
+
+            // Parallax Blobs
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                gsap.to("#blob1", { x: x * 100, y: y * 100, duration: 2 });
+                gsap.to("#blob2", { x: -x * 150, y: -y * 150, duration: 2 });
+            });
+        }
+
+        // 5. Interactive Elements Logic
+        let extinguishedCount = 0;
+        function extinguish(candle) {
+            const flame = candle.querySelector('.flame');
+            if (flame.style.display !== 'none') {
+                gsap.to(flame, { opacity: 0, scale: 0, duration: 0.5 });
+                setTimeout(() => flame.style.display = 'none', 500);
+                extinguishedCount++;
+                
+                if (extinguishedCount === 3) {
+                    document.getElementById('wish-text').innerText = "Wish granted! ✨";
+                    document.getElementById('wish-text').classList.add('text-white', 'scale-110');
+                    celebrate();
+                }
+            }
+        }
+
+        function celebrate() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 50 * (timeLeft / duration);
+              confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+              confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+        }
+
+        function toggleAudio() {
+            const audio = document.getElementById('bg-music');
+            const icon = document.getElementById('music-icon');
+            if (audio.paused) {
+                audio.play();
+                icon.innerHTML = '<i data-lucide="music"></i>';
+            } else {
+                audio.pause();
+                icon.innerHTML = '<i data-lucide="music-2"></i>';
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
